@@ -1,0 +1,44 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: BlaizeVaultV1
+    network: fantom
+    source:
+      address: "0x613439e2b8EF64fAF0e2CB2abf65ad36F7cfF20e"
+      abi: BlaizeVaultV1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - Deposit
+        - NewStratCandidate
+        - OwnershipTransferred
+        - SetLockPeriod
+        - Transfer
+        - UpgradeStrat
+        - Withdraw
+      abis:
+        - name: BlaizeVaultV1
+          file: ./abis/BlaizeVaultV1.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: Deposit(indexed address,indexed uint256,indexed uint256)
+          handler: handleDeposit
+        - event: NewStratCandidate(address)
+          handler: handleNewStratCandidate
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: SetLockPeriod(indexed uint256)
+          handler: handleSetLockPeriod
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+        - event: UpgradeStrat(address)
+          handler: handleUpgradeStrat
+        - event: Withdraw(indexed address,indexed uint256)
+          handler: handleWithdraw
+      file: ./src/mapping.ts
